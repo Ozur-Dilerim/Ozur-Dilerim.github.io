@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Özür Dilerim 🥺</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #ffd6e7 0%, #ffecf5 40%, #ffe0f0 70%, #ffc8e8 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Floating hearts background */
+  .hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .heart-float {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.15;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0.15; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Card */
+  .card {
+    position: relative;
+    z-index: 10;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(18px);
+    border: 2px solid rgba(255,160,200,0.4);
+    border-radius: 32px;
+    padding: 48px 52px 44px;
+    max-width: 520px;
+    width: 90%;
+    text-align: center;
+    box-shadow:
+      0 20px 60px rgba(255,100,160,0.18),
+      0 2px 8px rgba(255,100,160,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.8);
+    animation: cardPop 0.7s cubic-bezier(.34,1.56,.64,1) both;
+  }
+
+  @keyframes cardPop {
+    from { opacity: 0; transform: scale(0.7) translateY(40px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Image */
+  .img-wrap {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    margin: 0 auto 28px;
+    overflow: hidden;
+    border: 4px solid rgba(255,130,180,0.5);
+    box-shadow: 0 8px 32px rgba(255,100,160,0.22);
+    transition: transform 0.3s ease;
+    position: relative;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0; left: 0;
+    transition: opacity 0.15s;
+  }
+  .img-wrap img.hidden { opacity: 0; }
+  .img-wrap:hover { transform: scale(1.04); }
+
+  /* Title */
+  .title {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.55rem;
+    color: #d63384;
+    line-height: 1.4;
+    margin-bottom: 32px;
+    text-shadow: 0 2px 8px rgba(214,51,132,0.12);
+    transition: all 0.4s ease;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-yes, .btn-no {
+    border: none;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s, font-size 0.5s cubic-bezier(.34,1.56,.64,1);
+    letter-spacing: 0.02em;
+  }
+
+  .btn-yes {
+    background: linear-gradient(135deg, #ff6eb4, #d63384);
+    color: #fff;
+    font-size: 1.15rem;
+    padding: 14px 36px;
+    box-shadow: 0 6px 24px rgba(214,51,132,0.35);
+    z-index: 20;
+  }
+  .btn-yes:hover {
+    transform: scale(1.08);
+    box-shadow: 0 10px 32px rgba(214,51,132,0.45);
+  }
+
+  .btn-no {
+    background: rgba(255,255,255,0.6);
+    color: #d63384;
+    border: 2px solid rgba(214,51,132,0.4);
+    font-size: 1rem;
+    padding: 13px 30px;
+    box-shadow: 0 2px 10px rgba(214,51,132,0.10);
+  }
+  .btn-no:hover {
+    background: rgba(255,200,230,0.5);
+    transform: scale(1.04);
+  }
+
+  /* Final message */
+  .final-msg {
+    display: none;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.6rem;
+    color: #d63384;
+    line-height: 1.6;
+    animation: popIn 0.7s cubic-bezier(.34,1.56,.64,1) both;
+    text-shadow: 0 2px 12px rgba(214,51,132,0.18);
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* Confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 14px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: confettiFall 2.2s ease-in forwards;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  @keyframes confettiFall {
+    0%   { opacity: 1; transform: translateY(-20px) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+  }
+
+  /* Yes button fullscreen overlay */
+  .btn-yes.fullscreen {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    font-size: 3rem;
+    z-index: 1000;
+    animation: fillScreen 0.6s ease forwards;
+  }
+  @keyframes fillScreen {
+    from { border-radius: 999px; }
+    to   { border-radius: 0; }
+  }
+
+  /* ── Stick hit effect ── */
+  .stick-container {
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    pointer-events: none;
+    z-index: 50;
+    display: none;
+  }
+  .stick-container.active {
+    display: block;
+  }
+
+  /* The stick SVG swings from top-right */
+  .stick-svg {
+    position: absolute;
+    top: 0; right: 0;
+    width: 110px;
+    height: 110px;
+    transform-origin: 95% 5%;
+    animation: none;
+  }
+  .stick-svg.swing {
+    animation: stickSwing 0.45s cubic-bezier(.36,.07,.19,.97) forwards;
+  }
+  @keyframes stickSwing {
+    0%   { transform: rotate(-70deg); }
+    40%  { transform: rotate(30deg);  }
+    55%  { transform: rotate(15deg);  }
+    70%  { transform: rotate(25deg);  }
+    100% { transform: rotate(-70deg); }
+  }
+
+  /* Stars burst on hit */
+  .hit-stars {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.4rem;
+    pointer-events: none;
+    display: none;
+  }
+  .hit-stars span {
+    position: absolute;
+    animation: starBurst 0.6s ease-out forwards;
+    opacity: 0;
+  }
+  @keyframes starBurst {
+    0%   { opacity: 1; transform: translate(0,0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3); }
+  }
+
+  /* Screen shake on hit */
+  @keyframes hitShake {
+    0%,100% { transform: translate(0,0) rotate(0deg); }
+    15%      { transform: translate(-6px, 3px) rotate(-2deg); }
+    30%      { transform: translate(6px, -3px) rotate(2deg); }
+    45%      { transform: translate(-4px, 2px) rotate(-1deg); }
+    60%      { transform: translate(4px, -2px) rotate(1deg); }
+    75%      { transform: translate(-2px, 1px) rotate(0deg); }
+  }
+  .card.shake {
+    animation: hitShake 0.45s ease both;
+  }
+
+  /* Red flash overlay on hit */
+  .hit-flash {
+    position: absolute;
+    inset: 0;
+    border-radius: 32px;
+    background: rgba(255,50,50,0.22);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 40;
+    transition: opacity 0.05s;
+  }
+  .hit-flash.active {
+    opacity: 1;
+    animation: flashFade 0.35s ease forwards;
+  }
+  @keyframes flashFade {
+    0%   { opacity: 0.5; }
+    100% { opacity: 0; }
+  }
+
+  /* img-wrap hit bounce */
+  @keyframes imgBounce {
+    0%   { transform: scale(1) rotate(0deg); }
+    20%  { transform: scale(0.82) rotate(-8deg); }
+    45%  { transform: scale(1.06) rotate(4deg); }
+    65%  { transform: scale(0.96) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+  .img-wrap.bounce {
+    animation: imgBounce 0.5s cubic-bezier(.36,.07,.19,.97) forwards;
+  }
+
+  /* "BAM!" text pop */
+  .bam-text {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Pacifico', cursive;
+    font-size: 2rem;
+    color: #ff2255;
+    text-shadow: 0 2px 8px rgba(255,34,85,0.4), 2px 2px 0 #fff, -2px -2px 0 #fff;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0;
+    animation: none;
+  }
+  .bam-text.pop {
+    animation: bamPop 0.7s cubic-bezier(.36,.07,.19,.97) forwards;
+  }
+  @keyframes bamPop {
+    0%   { opacity: 0; transform: translateX(-50%) scale(0.3) rotate(-10deg); }
+    30%  { opacity: 1; transform: translateX(-50%) scale(1.3) rotate(5deg); }
+    55%  { opacity: 1; transform: translateX(-50%) scale(0.95) rotate(-2deg); }
+    75%  { opacity: 1; transform: translateX(-50%) scale(1.05) rotate(0deg); }
+    100% { opacity: 0; transform: translateX(-50%) scale(1) translateY(-20px); }
+  }
+
+  /* Shimmer on card */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 32px;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: shimmer 4s infinite;
+    pointer-events: none;
+  }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<div class="card" id="card">
+  <div class="img-wrap" id="imgWrap">
+    <img src="img1.jpg" id="img1.jpg" alt="">
+    <img src="img2.jpg" id="img2.jpg" class="hidden" alt="">
+
+    <!-- Stick -->
+    <div class="stick-container" id="stickContainer">
+      <svg class="stick-svg" id="stickSvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="82" cy="14" rx="11" ry="9" fill="#FFDAB9" stroke="#e0a080" stroke-width="1.5"/>
+        <circle cx="76" cy="11" r="5" fill="#FFDAB9" stroke="#e0a080" stroke-width="1"/>
+        <circle cx="83" cy="8"  r="5" fill="#FFDAB9" stroke="#e0a080" stroke-width="1"/>
+        <circle cx="89" cy="11" r="4.5" fill="#FFDAB9" stroke="#e0a080" stroke-width="1"/>
+        <rect x="46" y="12" width="10" height="62" rx="5" fill="#8B4513" transform="rotate(10,51,43)"/>
+        <rect x="44" y="60" width="14" height="18" rx="6" fill="#A0522D" transform="rotate(10,51,69)"/>
+        <text x="52" y="30" font-size="9" text-anchor="middle" transform="rotate(10,52,30)">⭐</text>
+      </svg>
+    </div>
+
+    <!-- Hit stars burst -->
+    <div class="hit-stars" id="hitStars"></div>
+
+    <!-- BAM text -->
+    <div class="bam-text" id="bamText">BAM! 💥</div>
+  </div>
+
+  <!-- Red hit flash overlay -->
+  <div class="hit-flash" id="hitFlash"></div>
+
+  <div class="title" id="mainTitle">Seni üzdüğüm için özür dilerim... ben eşeğim 🥺 Barışalım mı?</div>
+
+  <div class="btn-row" id="btnRow">
+    <button class="btn-yes" id="btnYes" onclick="handleYes()">✨ Evet</button>
+    <button class="btn-no" id="btnNo" onclick="handleNo()">Hayır</button>
+  </div>
+
+  <div class="final-msg" id="finalMsg">
+    🎉 EVEETTT BİLİYORDUM<br>
+    BARIŞACAĞIMIZI!<br>
+    SENİ ÇOK ÇOK ÇOK<br>
+    SEVİYORUM 💖<br>
+    ÖZÜR DİLERİM<br><br>
+    <span style="font-size:1.1rem">— Eşek Okyanus 🫏💕</span>
+  </div>
+</div>
+
+<script>
+  /* ── Floating hearts ── */
+  const hb = document.getElementById('heartsBg');
+  const emojis = ['💖','💕','💗','💓','🌸','✨','💝','🌺'];
+  for (let i = 0; i < 22; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.animationDuration = (6 + Math.random() * 10) + 's';
+    h.style.animationDelay = (Math.random() * 10) + 's';
+    h.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+    hb.appendChild(h);
+  }
+
+  /* ── Hit + Image flash ── */
+  const bamWords = ['BAM! 💥', 'AY! 😵', 'VURDU! ⭐', 'OUF! 💫', 'ÇARPTIM! 🌟'];
+  let bamIdx = 0;
+
+  function doHitEffect() {
+    const i1          = document.getElementById('img1');
+    const i2          = document.getElementById('img2');
+    const card        = document.getElementById('card');
+    const imgWrap     = document.getElementById('imgWrap');
+    const stickCont   = document.getElementById('stickContainer');
+    const stickSvg    = document.getElementById('stickSvg');
+    const hitStars    = document.getElementById('hitStars');
+    const bamText     = document.getElementById('bamText');
+    const hitFlash    = document.getElementById('hitFlash');
+
+    // 1. Show stick & swing
+    stickCont.classList.add('active');
+    // force reflow to restart animation
+    stickSvg.classList.remove('swing');
+    void stickSvg.offsetWidth;
+    stickSvg.classList.add('swing');
+
+    // 2. At impact moment (~180ms) do everything
+    setTimeout(() => {
+      // Switch to img2
+      i1.classList.add('hidden');
+      i2.classList.remove('hidden');
+
+      // Card shake
+      card.classList.remove('shake');
+      void card.offsetWidth;
+      card.classList.add('shake');
+
+      // imgWrap bounce
+      imgWrap.classList.remove('bounce');
+      void imgWrap.offsetWidth;
+      imgWrap.classList.add('bounce');
+
+      // Red flash
+      hitFlash.classList.remove('active');
+      void hitFlash.offsetWidth;
+      hitFlash.classList.add('active');
+
+      // BAM text
+      bamText.textContent = bamWords[bamIdx % bamWords.length];
+      bamIdx++;
+      bamText.classList.remove('pop');
+      void bamText.offsetWidth;
+      bamText.classList.add('pop');
+
+      // Stars burst
+      hitStars.innerHTML = '';
+      hitStars.style.display = 'block';
+      const starEmojis = ['⭐','💫','✨','🌟','💥'];
+      const angles = [0, 60, 120, 180, 240, 300];
+      angles.forEach((angle, idx) => {
+        const s = document.createElement('span');
+        s.textContent = starEmojis[idx % starEmojis.length];
+        const rad = angle * Math.PI / 180;
+        const dist = 55 + Math.random() * 25;
+        s.style.setProperty('--tx', Math.cos(rad) * dist + 'px');
+        s.style.setProperty('--ty', Math.sin(rad) * dist + 'px');
+        s.style.animationDelay = (Math.random() * 0.08) + 's';
+        s.style.fontSize = (0.9 + Math.random() * 0.6) + 'rem';
+        hitStars.appendChild(s);
+      });
+
+    }, 200);
+
+    // 3. Revert to img1 after 1s
+    setTimeout(() => {
+      i2.classList.add('hidden');
+      i1.classList.remove('hidden');
+      imgWrap.classList.remove('bounce');
+      card.classList.remove('shake');
+    }, 1100);
+
+    // 4. Hide stick after swing
+    setTimeout(() => {
+      stickCont.classList.remove('active');
+      stickSvg.classList.remove('swing');
+      hitStars.style.display = 'none';
+    }, 700);
+  }
+
+  /* ── State ── */
+  let noCount = 0;
+  let yesFontSize = 1.15; // rem
+
+  const noTexts   = [
+    'Hayır',
+    'Emin misin?',
+    'Gerçekten emin olduğuna emin misin?',
+    'Son bir kez daha düşünme hakkı veriyorum güzelime 🥺',
+    'Ama üzülüyorum bak... çok mu eminsin? 😢'
+  ];
+
+  const yesSizes  = [1.15, 1.55, 2.0, 2.6, 0]; // 0 = fullscreen
+
+  /* ── No handler ── */
+  function handleNo() {
+    noCount++;
+    doHitEffect();
+
+    const btnNo   = document.getElementById('btnNo');
+    const btnYes  = document.getElementById('btnYes');
+
+    // Update no button text
+    if (noCount < noTexts.length) {
+      btnNo.textContent = noTexts[noCount];
+    }
+
+    // Grow yes button
+    if (noCount < yesSizes.length - 1) {
+      yesFontSize = yesSizes[noCount];
+      btnYes.style.fontSize = yesFontSize + 'rem';
+      btnYes.style.padding  = (12 + noCount * 4) + 'px ' + (32 + noCount * 8) + 'px';
+    }
+
+    // Last no → fullscreen yes, hide no
+    if (noCount >= 4) {
+      btnNo.style.display = 'none';
+      btnYes.classList.add('fullscreen');
+      btnYes.textContent = '💖 Evet, Barışıyoruz! 💖';
+    }
+  }
+
+  /* ── Yes handler ── */
+  function handleYes() {
+    const card      = document.getElementById('card');
+    const btnRow    = document.getElementById('btnRow');
+    const mainTitle = document.getElementById('mainTitle');
+    const finalMsg  = document.getElementById('finalMsg');
+    const imgWrap   = document.getElementById('imgWrap');
+    const btnYes    = document.getElementById('btnYes');
+
+    // Remove fullscreen class if applied
+    btnYes.classList.remove('fullscreen');
+
+    // Hide button row and title, show final
+    btnRow.style.display    = 'none';
+    mainTitle.style.display = 'none';
+    imgWrap.style.display   = 'none';
+    finalMsg.style.display  = 'block';
+
+    // Confetti!
+    launchConfetti();
+  }
+
+  /* ── Confetti ── */
+  function launchConfetti() {
+    const colors = ['#ff6eb4','#d63384','#ff9ecf','#ffb3d9','#ffe0f0','#ff3399','#fff'];
+    for (let i = 0; i < 120; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.top  = '-20px';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.transform  = 'rotate(' + Math.random() * 360 + 'deg)';
+        c.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+        c.style.animationDelay    = (Math.random() * 0.5) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 3000);
+      }, i * 18);
+    }
+  }
+</script>
+</body>
+</html>
